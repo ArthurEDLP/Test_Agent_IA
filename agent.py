@@ -14,6 +14,8 @@ def ask(question: str, historique: list = []) -> str:
 
     contexte = retrieve(question)    
 
+    contexte_hist = "\n".join(contexte)
+
     # 2)
     prompt = f"""
     Tu es un assistant expert en lecture de documents.
@@ -21,13 +23,13 @@ def ask(question: str, historique: list = []) -> str:
     Si la réponse n'est pas dans le contexte, dis-le.
 
     Contexte:
-    {"\n".join(contexte)}
+    {contexte_hist}
 
     Question : {question}
 
     """
     # 3)
-    historique.append({"role": "user", "content": prompt + f"\nQuestion : {question}"})
+    historique.append({"role": "user", "content": prompt})
 
     # 4)
 
