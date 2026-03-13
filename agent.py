@@ -1,10 +1,11 @@
 import requests
 from retriever import retrieve
 from openai import AzureOpenAI
+import os
 
-AZURE_ENDPOINT = "https://test-agent-ia-90057.services.ai.azure.com/"
-AZURE_KEY      = "V6x8ynGn7ZEe3FXNVTLn4BflY6lLDh4mKXMSnbRo1OrnBcAbroVRJQQJ99CCACYeBjFXJ3w3AAAAACOGpwLT"
-LLM_MODEL = "gpt-4o"
+AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
+AZURE_KEY      = os.getenv("AZURE_KEY")
+LLM_MODEL = os.environ.get("LLM_MODEL")
 
 client = AzureOpenAI(
     azure_endpoint=AZURE_ENDPOINT,

@@ -1,9 +1,10 @@
 from openai import AzureOpenAI
- 
-AZURE_ENDPOINT = "https://test-agent-ia-90057.services.ai.azure.com/"
-AZURE_KEY      = "V6x8ynGn7ZEe3FXNVTLn4BflY6lLDh4mKXMSnbRo1OrnBcAbroVRJQQJ99CCACYeBjFXJ3w3AAAAACOGpwLT"
-DEPLOY_EMBED   = "text-embedding"
- 
+import os
+
+AZURE_ENDPOINT = os.environ.get("AZURE_ENDPOINT")
+AZURE_KEY      = os.environ.get("AZURE_KEY")
+DEPLOY_EMBED   = os.environ.get("DEPLOY_EMBED")
+
 client = AzureOpenAI(
     azure_endpoint=AZURE_ENDPOINT,
     api_key=AZURE_KEY,

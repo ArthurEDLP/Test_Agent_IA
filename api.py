@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+
+load_dotenv()
 from flask import Flask, request, jsonify
 from agent import ask
 import os
@@ -5,6 +8,7 @@ from ingestion import load_document, chunk_text
 from embedder import get_embedding
 from vector_store import add_chunks, save_store, load_store
 from flask_cors import CORS
+
 
 app = Flask(__name__)
 CORS(app)
@@ -46,4 +50,4 @@ def handle_question():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":  # ← FIX PRINCIPAL : app.run() doit être ici
-    app.run(port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
