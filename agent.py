@@ -1,10 +1,16 @@
 import requests
 from retriever import retrieve
+from openai import AzureOpenAI
 
-OLLAMA_URL = "http://localhost:11434/api/chat"
-LLM_MODEL = "llama3"
+AZURE_ENDPOINT = "https://test-agent-ia-90057.services.ai.azure.com/"
+AZURE_KEY      = "V6x8ynGn7ZEe3FXNVTLn4BflY6lLDh4mKXMSnbRo1OrnBcAbroVRJQQJ99CCACYeBjFXJ3w3AAAAACOGpwLT"
+LLM_MODEL = "gpt-4o"
 
-# ollama pull llama3
+client = AzureOpenAI(
+    azure_endpoint=AZURE_ENDPOINT,
+    api_key=AZURE_KEY,
+    api_version="2024-02-15-preview"
+)
 
 def ask(question: str, historique: list = []) -> str:
     # 1. récupérer les chunks pertinents avec retrieve()
@@ -37,17 +43,12 @@ def ask(question: str, historique: list = []) -> str:
     # Embedding: on envoie un prompt, on reçoit un vecteur
     # Chat : on envoie un message, on reçoit du texte
 
-    reponse = requests.post( 
-        OLLAMA_URL,
-        json = {
-            "model": LLM_MODEL,
-            "messages": historique,
-            "stream": False
-        }
+    reponse = client.chat.completions.create( 
+        model=LLM_MODEL,
+        messages=historique
     )
 
-    result = reponse.json()
-    texte = result["message"]["content"]
+    texte = reponse.choices[0].message.content
 
     historique.append({"role": "assistant", "content": texte})
 
